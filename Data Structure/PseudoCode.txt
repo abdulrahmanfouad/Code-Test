@@ -1,0 +1,61 @@
+array queue[maxSize]
+int front = -1
+int rear = -1
+
+void enqueue(element) {
+  if (isFull()) {
+    return "queue is full";
+  }
+  if (isEmpty()) {
+    front = 0;
+  }
+  rear = (rear + 1) % maxSize;
+  queue[rear] = element;
+}
+
+element dequeue() {
+  if (isEmpty()) {
+    return null;
+  }
+  element temp = queue[front];
+  front = (front + 1) % maxSize;
+  if (front > rear) {
+    front = rear = -1;
+  }
+  return temp;
+}
+
+boolean isFull() {
+  return (rear + 1) % maxSize == front;
+}
+
+boolean isEmpty() {
+  return front == -1;
+}
+
+1. Time complexity:
+Enqueue: O(1) - Constant time, as adding an element only involves incrementing a pointer.
+Dequeue: O(1) - Constant time, as removing an element only involves updating a pointer.
+
+2. void enqueue(element) {
+  if (isFull()) {
+    return;
+  }
+  if (isEmpty()) {
+    front = rear = 0;
+    queue[rear] = element;
+    return;
+  }
+  int insertionIndex = rear;
+  element temp;
+  while (insertionIndex > front && queue[insertionIndex - 1].priority < element.priority) {
+    temp = queue[insertionIndex];
+    queue[insertionIndex] = queue[insertionIndex - 1];
+    insertionIndex--;
+  }
+  queue[insertionIndex] = element;
+  rear = (rear + 1) % maxSize;
+}
+Time complexity:
+Enqueue: O(log n) - Amortized time complexity, as finding the correct insertion position in the sorted queue takes logarithmic time on average.
+Dequeue: O(1) - Same as before, removing the element at the front remains constant time.

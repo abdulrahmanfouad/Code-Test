@@ -1,0 +1,12 @@
+def findMiddle(node):
+  if node is None or node.next is None:
+    return node
+  slow = findMiddle(node.next)
+  node.next = slow
+  return slow
+
+return findMiddle(head)
+
+Time complexity: O(n) - Makes multiple recursive calls, but each call processes at most half the list.
+
+Space complexity: O(n) - Uses the call stack for recursion.
